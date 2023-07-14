@@ -14,7 +14,6 @@ jobs:
             echo $DOCKER_USERNAME
             echo $DOCKER_PASSWORD
             echo "GITHUB_PERSONAL_TOKEN: $GITHUB_PERSONAL_TOKEN"
-            shell: /bin/bash -e
                    
   build_and_push:
     docker:
