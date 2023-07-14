@@ -1,6 +1,16 @@
 version: 2.1
 
 jobs:
+  
+  echo_env_variables: 
+    docker: 
+      - image: cimg/node:20.3.1
+    steps:
+      - run: 
+          command: | 
+            echo "DOCKER_USERNAME: $DOCKER_USERNAME"
+            echo "DOCKER_PASSWORD: $DOCKER_PASSWORD"
+            echo "GITHUB_PERSONAL_TOKEN: $GITHUB_PERSONAL_TOKEN"
   build_and_push:
     docker:
       - image: cimg/node:20.3.1
