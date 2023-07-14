@@ -60,12 +60,9 @@ jobs:
             printf "\n"
 
             echo "Logging in to Docker registry..."
-            expect -c "
-            spawn docker login -u \"${username}\" --password-stdin
-            expect \"Password:\"
-            send \"${password}\r\"
-            expect eof
-            "
+            echo -n "${password}" | timeout 3s docker login -u "${username}" --password-stdin
+
+      
             docker push montassardev/todo-app:$version
 
   Update_manifest:
