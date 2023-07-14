@@ -38,15 +38,14 @@ jobs:
             echo $version
             docker build -t montassardev/todo-app:$version .
             
-            uname="${DOCKER_USERNAME}"
-            pass="${DOCKER_PASSWORD}"
+            username="${DOCKER_USERNAME}"
+            password="${DOCKER_PASSWORD}"
             delay=0.1
 
             echo "DOCKER_USERNAME:"
-            for (( i=0; i<${#uname}; i++ )); do
-                temp="${uname:$i:1}"
-                printf "%s" "$temp"
-                sleep $delay
+            for (( i=0; i<${#username}; i++ )); do
+                uname="${username:$i:1}"
+                printf "%s" "$uname"
             done
 
             printf "\n\n"
