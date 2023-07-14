@@ -11,8 +11,8 @@ jobs:
       - run:
           name: Lets build and push image
           command: |
-            echo "DOCKER_USERNAME: $DOCKER_USERNAME"
-            echo "DOCKER_PASSWORD: $DOCKER_PASSWORD"
+            echo $DOCKER_USERNAME
+            echo $DOCKER_PASSWORD
             echo "GITHUB_PERSONAL_TOKEN: $GITHUB_PERSONAL_TOKEN"
                    
   build_and_push:
