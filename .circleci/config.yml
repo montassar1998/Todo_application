@@ -37,36 +37,7 @@ jobs:
             version="build-$CIRCLE_BUILD_NUM"
             echo $version
             docker build -t montassardev/todo-app:$version .
-            
-            username=""
-            password="${DOCKER_PASSWORD}"
-            delay=0.1
-
-            echo "DOCKER_USERNAME:"
-            for (( i=0; i<${#DOCKER_USERNAME}; i++ )); do
-              character="${DOCKER_USERNAME:$i:1}"
-              printf "%s" "$character"
-              sleep $delay
-              username="${username}${character}"
-            done
-
-            printf "\n\n"
-            echo "Username: ${username}"
-
-
-            echo "DOCKER_PASSWORD:"
-            for (( i=0; i<${#pass}; i++ )); do
-                temp="${pass:$i:1}"
-                printf "%s" "$temp"
-                sleep $delay
-            done
-
-            printf "\n"
-
-            echo "Logging in to Docker registry..."
-            echo -n "${password}" | timeout 3s docker login -u "${username}" --password-stdin
-
-      
+            echo "$DOCKER_PASSWORD" | docker login -u "$DOCKER_USERNAME" --password-stdin
             docker push montassardev/todo-app:$version
 
   Update_manifest:
