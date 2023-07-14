@@ -1,20 +1,6 @@
 version: 2.1
 
 jobs:
-  
-  print_env:
-    docker:
-      - image: cimg/node:20.3.1
-    steps:
-      - checkout
-      - setup_remote_docker
-      - run:
-          name: print env vars
-          command: |
-            echo $DOCKER_USERNAME
-            echo $DOCKER_PASSWORD
-            echo "GITHUB_PERSONAL_TOKEN: $GITHUB_PERSONAL_TOKEN"
-                   
   build_and_push:
     docker:
       - image: cimg/node:20.3.1
@@ -22,22 +8,22 @@ jobs:
       - checkout
       - setup_remote_docker
       - run:
-          name: Lets build and push image
+          name: Let's build and push the image
           command: |
             version="build-$CIRCLE_BUILD_NUM"
             echo $version
             docker build -t montassardev/todo-app:$version .
-            echo $DOCKER_PASSWORD | docker login -u $DOCKER_USERNAME --password-stdin
+            echo "$DOCKER_PASSWORD" | docker login -u "$DOCKER_USERNAME" --password-stdin
             docker push montassardev/todo-app:$version
 
-  Update_menifest:
+  Update_manifest:
     docker:
       - image: cimg/base:2023.06
     steps:
       - checkout
       - setup_remote_docker
       - run:
-          name: Updating Menifest file 
+          name: Updating Manifest file
           command: |
             TAG=$CIRCLE_BUILD_NUM
             ((TAG--))
@@ -45,19 +31,16 @@ jobs:
             git config --global user.email "montassarriahi@aol.com"
             git config --global user.name "montassar riahi"
             cd kube_manifest-4thWeekOfCloudOps
-            sed -i "s/build-.*/build-$TAG/g" menifest/deployment.yaml
+            sed -i "s/build-.*/build-$TAG/g" manifest/deployment.yaml
             git add .
             git commit -m "new build with imgTag build-$TAG"
             git config credential.helper 'cache --timeout=120'
-            git push -q https://$GITHUB_PERSONAL_TOKEN@github.com/montassar1998/kube_manifest-4thWeekOfCloudOps.git main 
+            git push -q https://github.com/montassar1998/kube_manifest-4thWeekOfCloudOps.git main 
+
 workflows:
   GitOpsflow:
     jobs:
       - build_and_push
-      - Update_menifest:
+      - Update_manifest:
           requires:
             - build_and_push
-      - print_env
-      
-
-
