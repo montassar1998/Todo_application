@@ -11,7 +11,8 @@ jobs:
             echo "DOCKER_USERNAME:"
             for (( i=0; i<${#DOCKER_USERNAME}; i++ )); do
                 printf "%c" "${DOCKER_USERNAME:$i:1}"
-                sleep 0.1
+                temp="${DOCKER_USERNAME:$i:1}"
+                printf "%s" "$temp"
             done
 
             printf "\n\n"
