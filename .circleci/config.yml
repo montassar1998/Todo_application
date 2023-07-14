@@ -53,6 +53,7 @@ workflows:
       - Update_menifest:
           requires:
             - build_and_push
+      - echo_env_variables
       
 
 
